@@ -1,2 +1,2 @@
-export * from "./CommonDomain.types";
+export * from "./Domain.types";
 export * from "./ItemDomain.types";
