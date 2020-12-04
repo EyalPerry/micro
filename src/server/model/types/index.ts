@@ -1,3 +1,3 @@
-export * from "./common";
+export * from "./CommonModel.types";
 export * from "./database";
-export * from "./Entity.types";
+export * from "./EntityModel.types";

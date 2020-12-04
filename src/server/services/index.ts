@@ -7,8 +7,8 @@ import {
    ServiceDefinitions,
 } from "Server/types";
 
-import { definition as logger } from "./Logger.service";
-import { definition as secret } from "./Secret.service";
+import { definition as logger } from "./LoggerService";
+import { definition as secret } from "./SecretService";
 
 export const definitions: ServiceDefinitions = {
    secret,
