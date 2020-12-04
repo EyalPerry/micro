@@ -25,6 +25,7 @@ if (isDevelopment) {
          ext: "js,json",
          delay: "1000",
          verbose: true,
+         args: (process.env.X_APP_ARGV || "").split(" "),
       })
    );
 
