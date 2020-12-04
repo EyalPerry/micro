@@ -1,8 +1,2 @@
-export interface DatabaseConfig {
-   initialConnectTimeout: number;
-   reconnectTimes: number;
-   reconnectInterval: number;
-   connectTimeoutMS: number;
-   connectedEvent: string;
-   keepAliveInitialDelay: number;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface DatabaseConfig {}
