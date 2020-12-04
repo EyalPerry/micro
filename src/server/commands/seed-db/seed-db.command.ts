@@ -1,5 +1,4 @@
 import { IAppContext } from "Server/types";
-import { promises as fs } from "fs";
 import path from "path";
 import _ from "lodash";
 
@@ -27,10 +26,7 @@ export default async function seedDatabase(
    ctx: IAppContext,
    options: SeedDatabaseOptions
 ): Promise<void> {
-   async function processCollection(
-      collectionData: unknown[],
-      collectionName: string
-   ): Promise<void> {
+   async function seedCollection(collectionData: unknown[], collectionName: string): Promise<void> {
       await ctx.databaseConnection
          .database(options.db)
          .collection(collectionName)
@@ -38,5 +34,5 @@ export default async function seedDatabase(
    }
 
    const collections = _.get(jsonMap, [options.folder], {});
-   await Promise.all(_.map(collections, processCollection));
+   await Promise.all(_.map(collections, seedCollection));
 }
