@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+   app:
+      env_file:
+         - .ci.env
+      build:
+         dockerfile: Dockerfile
+         args:
+            BUILDER_IMAGE: node:${X_APP_NODE_VERSION}

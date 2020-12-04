@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+   db:
+      image: mongo:${X_APP_DB_VERSION}
+      container_name: db
+      expose:
+         - 27017
+      ports:
+         - '${X_APP_DB_PORT}:27017'
+      networks:
+         app:
+            aliases:
+               - db
+   app:
+      container_name: app
+      env_file:
+         - .env
+      build:
+         context: .
+         args:
+            BASE_IMAGE: node:${X_APP_NODE_VERSION}-alpine
+      depends_on:
+         - 'db'
+      ports: 
+         - '${X_APP_PORT}:${X_APP_PORT}'
+      networks:
+         app:
+networks:
+   app:

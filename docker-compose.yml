@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  db:
+    volumes:
+      - ./volumes/db:/data/db
+  app:
+    restart: always
+    env_file: 
+      - .dev.env
+    build: 
+      dockerfile: development.Dockerfile
+    volumes:
+      - ./:/app
+    ports:
+      - '${X_APP_DEV_NODE_INSPECT_PORT}:${X_APP_DEV_NODE_INSPECT_PORT}'
+     
+     

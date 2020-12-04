@@ -1,0 +1,12 @@
+# Environment Change Checklist
+- start server
+- stop server
+- debug server
+- change server code and observe changes
+- connect to db via client app
+- run test script via npm run test
+- debug a test via VSCode Jest (currently not working due to wsl compat)
+- run a test via VSCode Jest (currently not working due to wsl compat)
+- ci (WIP)
+- DB connection - create entity
+- HTTP Request - get created entity
