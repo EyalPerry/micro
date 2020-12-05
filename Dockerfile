@@ -2,7 +2,6 @@ ARG BASE_IMAGE
 ARG BUILDER_IMAGE
 ARG APP_NAME
 ARG HEAP_SIZE
-ARG SERVICE_NAME
 
 FROM ${BUILDER_IMAGE}
 WORKDIR /build
@@ -23,14 +22,14 @@ COPY --from=0 /build/dist ./
 COPY ./.deployment.env ./
 
 ## Attackers will not gain privileged access to container / host
+## The tradeoff is that you cant use some ports, such as 80.
 USER node
 
 ENV NODE_ENV production
-ENV X_APP_HEAP_SIZE ${HEAP_SIZE}
-ENV X_APP_SERVICE_NAME ${SERVICE_NAME}
+ENV X_APP_NODE_HEAP_SIZE ${HEAP_SIZE}
 
 ## Adjust max node.js heap size. 
 ## Default behavior does not utilize the container resources properly.
 ## Reccomendation is to set this value to ~75 percent of the container resource,
 ## To allow other processes / paging / daemons some breathing room
-CMD ["node", "--max-old-space-size=${X_APP_HEAP_SIZE}", "."]
+CMD ["node", "--max-old-space-size=${X_APP_NODE_HEAP_SIZE}", "."]
