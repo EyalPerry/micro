@@ -1,6 +1,6 @@
 # During Development
-Configuration encouraged to be type safe (see `src/server/config/types`). <br/>
-It is also validated at runtime (see `src/server/config/schema/util/validateConfig.ts`).<br/>
+Configuration encouraged to be type safe (see `server/config/types`). <br/>
+It is also validated at runtime (see `server/config/schema/util/validateConfig.ts`).<br/>
 
 # During Runtime
 You can control the server's configuration at runtime via the below.
@@ -58,7 +58,7 @@ If you specify the `X_APP_VARS_CONFIG_PATH` you must also specify `X_APP_VARS_CO
 Supported types: `yml` / `yaml` / `json`.
 
 In Dev mode
-- The `app.config.json` file in the project directory is used.
+- The `app.config.json` file in the project directory is used by default.
 
 ## Defaults
 
@@ -69,11 +69,10 @@ The precedence of values, sorted from highest priority to lowest:
 - config file
 - defaults
 
-## A note about INI format support
-The INI file format is not supported out of the box, since YAML is more commonplace today.
-You can easily add ini support (see `src/server/config/util/getConfigFromFile.ts`).
+## A note about additional format support
+You can easily add additional config format support. (see `getConfigFromFile.ts`).
 
 ## A note about CLI argument support
 Configuring the server via CLI arguments is not supported out of the box, since:<br/>
 It is easier and more legible to maintain and source control files than to configure the server via long cli commands.
-You can easily add argument support by using any package you desire, and encorporating it in `src/server/config/util/resolveConfig.ts`.
+You can easily add argument support by using any package you desire, and encorporating it in `resolveConfig.ts`.
