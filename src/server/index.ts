@@ -1,4 +1,3 @@
-import { IAppContext } from "Server/types";
 import { getAppContext } from "Server/getAppContext";
 import { runCommand } from "Server/commands";
 
@@ -8,6 +7,7 @@ const onTerminate = () => {
 };
 
 process.on("SIGTERM", onTerminate);
+process.on("beforeExit", () => console.log("exiting process"));
 
 const onStartError = (error: unknown): void => {
    console.error("could not start app", error);
@@ -18,8 +18,6 @@ process.on("uncaughtException", function (err) {
    console.log(err);
 });
 
-function startApp(ctx: IAppContext): Promise<void> {
-   return runCommand(ctx, process.argv);
-}
-
-getAppContext().then(startApp).catch(onStartError);
+getAppContext()
+   .then((ctx) => runCommand(ctx, process.argv))
+   .catch(onStartError);

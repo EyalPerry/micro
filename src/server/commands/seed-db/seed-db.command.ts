@@ -5,6 +5,7 @@ import { seedDatabase } from "./seedDatabase";
 export default function defineSeedDbCommand(ctx: IAppContext, program: Command): void {
    program
       .command("seed-db")
+      .description("seeds a database using a folder which contains collection json files")
       .action((args) => seedDatabase(ctx, args))
       .requiredOption("-d, --db <value>", "name of the database to seed")
       .option(

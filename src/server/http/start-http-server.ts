@@ -23,7 +23,6 @@ const onHttpServerListening = (context: IAppContext) => (): void => {
    );
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const onHttpServerError = (context: IAppContext) => (err: any, ctx: Context): void => {
+const onHttpServerError = (context: IAppContext) => (err: unknown, ctx: Context): void => {
    context.services.logger.error("server error", err, ctx);
 };
