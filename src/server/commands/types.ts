@@ -1,4 +1,4 @@
 import { IAppContext } from "Server/types";
+import { Command } from "commander";
 
-export type Command = (ctx: IAppContext, args: unknown) => Promise<void>;
-export type CommandMap = { [key: string]: Command };
+export type CommandBuilder = (ctx: IAppContext, rootCommand: Command) => void;

@@ -25,7 +25,7 @@ if (isDevelopment) {
          ext: "js,json",
          delay: "1000",
          verbose: true,
-         args: process.env.X_APP_ARGV ? process.env.X_APP_ARGV.split(" ") : [],
+         args: process.env.X_APP_DEV_ARGV ? process.env.X_APP_DEV_ARGV.split(" ") : [],
       })
    );
 

@@ -1,4 +1,6 @@
 # Architecture
+This starter aims to separate concerns which are often tightly coupled in applications: business logic, database access and communication protocols.
+It does so by introducing an automatic mapping layer which handles both mapping of requests into  between domain object response and protocol, and by exposing
 A domain object groups together functions which operate on an aspect of the system (which is then referred to as "the domain" of that object).
 i.e. an Order object can have functions which create and update orders.
 
