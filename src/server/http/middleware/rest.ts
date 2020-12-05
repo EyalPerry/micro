@@ -13,8 +13,8 @@ import {
    HttpClientError,
    HttpSuccess,
    HttpServerError,
-   IEndpoint,
-   IHandler,
+   IHttpEndpoint,
+   IHttpHandler,
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
@@ -46,7 +46,7 @@ function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any):
    }
 }
 
-function createHandlerMiddleware(context: IAppContext, handler: IHandler<any, any>) {
+function createHandlerMiddleware(context: IAppContext, handler: IHttpHandler<any, any>) {
    return async function handlerWrapperMiddleware(ctx: Context, next: Function) {
       const request: any = {
          ...(ctx.request.body || {}),
@@ -59,13 +59,17 @@ function createHandlerMiddleware(context: IAppContext, handler: IHandler<any, an
       });
 
       const requestId = ctx.get(requestIdHeader) || uuid();
-      request.$id = requestId;
       context.services.logger.debug("received request", request);
 
-      request.$context = context;
       const domainObject = _.get(context.domain, handler.domain);
       const func: Function = _.get(domainObject, handler.func);
-      const response = await func.call(domainObject, request);
+
+      const requestContext = {
+         id: requestId,
+         context,
+      };
+
+      const response = await func.call(domainObject, request, requestContext);
 
       if (response.meta) {
          ctx.set(response.meta);
@@ -77,7 +81,7 @@ function createHandlerMiddleware(context: IAppContext, handler: IHandler<any, an
    };
 }
 
-const createEndpointRouter = (endpoint: IEndpoint, context: IAppContext): Router => {
+const createEndpointRouter = (endpoint: IHttpEndpoint, context: IAppContext): Router => {
    const endpointRouter = new Router({ prefix: endpoint.route });
 
    for (const handlerDefinition of endpoint.handlers) {
@@ -93,7 +97,7 @@ const createEndpointRouter = (endpoint: IEndpoint, context: IAppContext): Router
    return endpointRouter;
 };
 
-const createRestApiRouter = (context: IAppContext, endpoints: IEndpoint[]) => {
+const createRestApiRouter = (context: IAppContext, endpoints: IHttpEndpoint[]) => {
    const appRouter = new Router();
 
    appRouter.use(koaBody(context.config.http.body));
@@ -106,7 +110,7 @@ const createRestApiRouter = (context: IAppContext, endpoints: IEndpoint[]) => {
    return appRouter;
 };
 
-export default (endpoints: IEndpoint[], app: Koa, context: IAppContext): void => {
+export default (endpoints: IHttpEndpoint[], app: Koa, context: IAppContext): void => {
    const router = createRestApiRouter(context, endpoints);
    app.use(router.routes());
    app.use(router.allowedMethods());

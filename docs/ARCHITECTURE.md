@@ -1,19 +1,41 @@
 # Architecture
-This starter aims to separate concerns which are often tightly coupled in applications: business logic, database access and communication protocols.
-It does so by introducing an automatic mapping layer which handles both mapping of requests into  between domain object response and protocol, and by exposing
-A domain object groups together functions which operate on an aspect of the system (which is then referred to as "the domain" of that object).
-i.e. an Order object can have functions which create and update orders.
+This starter aims to separate concerns which are often tightly coupled in applications: domain logic, database access and communication protocols.
 
-Domain objects do not use database primitives - they consume these via specialized objects (e.g. the Order Model).
+Coupling these concerns can Make the following a lot harder<br/>
+- Reasoning about the domain
+- Supporting additional protocols
+- Testing the application outside the context of any protocol
+- Switching HTTP libraries
+- Switching databases libraries / engines / versions
 
-Applications are often written by using a REST / GraphQL library, and more often than not, the domain is tightly coupled with the library / protocol.
+In order to facilitate separation, this starter acknowledges the following key aspects of an application:
 
-This approach can have several drawbacks<br/>
-- Reasoning about the domain becomes harder
-- Supporting additional protocols becomes harder
-- Testing the application outside the context of any protocol becomes impossible
+- Domain Object: a class which contains any number of related functions.<br/>
+Each such function may or may not be exposed for invocation as a result of an incoming request.<br/>
+Each such function may invoke other domain functions.<br/>
+The application can define as many domain objects as necessary.<br/>
 
-In order to help alleviate this, this starter project encourages to only bind domain objects to protocol endpoints, moving the actual application into well defined domain objects.
+- Model: a class which encapsulates DB primitives and concerns, whose functions speak only in domain terms.<br/>
+Can be consumed by domain objects.<br/>
+The application can define as many models as necessary.<br/>
+
+- Service: represents a cross cutting concern, such as Logging, Secret management or Static Asset I/O.<br/>
+Can be consumed by both models and domain objects.<br/>
+The application can define as many services as necessary.<br/>
+
+- Configuration: an object with data, originating from the environment, the file system and default values.
+Validated at runtime. <br/>
+Can be consumed by domain objects, models and services.<br/>
+See `CONFIG.md` for more info.
+
+# HTTP Request / Response Mapping
+This starter enables to expressively map incoming requests into a single object, invoke a specific domain object function with that single object as the first argument, and pass in the `IRequestContext` as a second argument. The function's result is then converted into an HTTP response.
+
+HTTP endpoint files are picked up dynamically, by naming convention & folder location:
+Any file located under `src/server/http/endpoints` whose postfix is `endpoint.ts` is picked up and it's default export is processed.
+See the `IHttpEndpoint` and `IHttpHandler` interfaces and `Item.endpoint.ts` module for usage examples.
+
+In order for the response mapping to work, each domain object is implicitly expected to return an `IResponse` shape.
 
 ## Binding Domain Objects to REST over HTTP
 See `src/server/http/endpoints` folder and look into how a `*.endpoint.ts` is implemented.
