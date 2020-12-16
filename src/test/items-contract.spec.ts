@@ -1,6 +1,6 @@
 import { CreateResponse, ReadResponse, UpdateResponse } from "Server/types";
 import { uuid } from "Server/util";
-import { HttpTestClient, HttpResponse } from "./http-test-client";
+import { HttpTestClient, HttpResponse } from "./contract/http-test-client";
 
 describe("item contract tests", () => {
    let client: HttpTestClient;

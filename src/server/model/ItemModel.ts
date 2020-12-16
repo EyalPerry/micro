@@ -25,7 +25,7 @@ export class ItemModel implements IItemModel {
          { $set: value },
          { returnOriginal: false, projection: { _id: 0 } }
       );
-      return result.value || undefined;
+      return result.value;
    }
 
    async deleteById(id: string): Promise<boolean> {
