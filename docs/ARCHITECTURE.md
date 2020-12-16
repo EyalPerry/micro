@@ -39,6 +39,6 @@ This starter enables expressively mapping incoming requests into a single object
 
 HTTP endpoint files are picked up dynamically, by naming convention & folder location:
 Any file located under `src/server/http/endpoints` whose postfix is `endpoint.ts` is picked up and it's default export is processed.
-See the `IHttpEndpoint` and `IHttpHandler` interfaces and `Item.endpoint.ts` module for usage examples.
+See the `IHttpEndpoint` and `IHttpHandler` interfaces and `item.endpoint.ts` module for usage examples.
 
 The binding magic happens in the `src/server/http/middleware/rest` file, and can be easily applied to any other protocol.

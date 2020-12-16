@@ -64,6 +64,8 @@ In Dev mode
 
 For config values not specified in the aforementioned options, the values specified in `defaultConfig.ts` will be used.
 
+## Precedence
+
 The precedence of values, sorted from highest priority to lowest:
 - environment
 - config file
@@ -71,8 +73,3 @@ The precedence of values, sorted from highest priority to lowest:
 
 ## A note about additional format support
 You can easily add additional config format support. (see `getConfigFromFile.ts`).
-
-## A note about CLI argument support
-Configuring the server via CLI arguments is not supported out of the box, since:<br/>
-It is easier and more legible to maintain and source control files than to configure the server via long cli commands.
-You can easily add argument support by using any package you desire, and encorporating it in `resolveConfig.ts`.
