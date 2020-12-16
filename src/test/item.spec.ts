@@ -6,10 +6,14 @@ describe("item tests", () => {
       client = new HttpTestClient({ baseUrl: "/items" });
    });
    it("should create an item", async () => {
-      const response = await client.post("/", { body: { test: true, name: "hello!" } });
+      const response = await client.post("/", {
+         body: {
+            data: { test: true, name: "hello!" },
+         },
+      });
       expect(response.code).toEqual(201);
       const body = response.body as { id: string };
       expect(body).toHaveProperty("id");
-      expect(body.id).toMatch(/a-z0-9/);
+      expect(body.id).toMatch(/[a-z0-9]+/);
    });
 });

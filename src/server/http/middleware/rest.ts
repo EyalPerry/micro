@@ -16,6 +16,7 @@ import {
    HttpServerError,
    IHttpEndpoint,
    IHttpHandler,
+   IResponse,
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
@@ -107,14 +108,18 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
       });
 
       try {
-         const response = await func.call(domainObject, request, requestContext);
+         const response: IResponse<unknown> = await func.call(
+            domainObject,
+            request,
+            requestContext
+         );
          requestContext.logger.trace("request handled");
          if (response.meta) {
             ctx.set(response.meta);
          }
 
          ctx.set(requestIdHeader, requestId);
-         respondWithOutcome(ctx, response.outcome, response.body);
+         respondWithOutcome(ctx, response.outcome, response.data);
       } catch (err) {
          requestContext.logger.httpError(ctx, err);
          respondWithOutcome(ctx, "unexpected-error");
