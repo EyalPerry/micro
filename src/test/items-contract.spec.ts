@@ -2,7 +2,7 @@ import { CreateResponse, ReadResponse, UpdateResponse } from "Server/types";
 import { uuid } from "Server/util";
 import { HttpTestClient, HttpResponse } from "./http-test-client";
 
-describe("item tests", () => {
+describe("item contract tests", () => {
    let client: HttpTestClient;
    beforeEach(() => {
       client = new HttpTestClient({ baseUrl: "/items" });
@@ -22,6 +22,10 @@ describe("item tests", () => {
       return client.patch(`/${id}`, {
          body: { data },
       });
+   }
+
+   function deleteItem(id: string): Promise<HttpResponse> {
+      return client.delete(`/${id}`);
    }
 
    it("should create an item", async () => {
@@ -64,5 +68,21 @@ describe("item tests", () => {
       const random = uuid();
       const updateResponse = await updateItem(random, { name: "something" });
       expect(updateResponse.code).toEqual(404);
+   });
+
+   it("should delete a previously created item", async () => {
+      const random = uuid();
+      const createResponse = await createItem({ random });
+      const createResponseBody = createResponse.body as CreateResponse;
+      const deleteResponse = await deleteItem(createResponseBody.id);
+      expect(deleteResponse.code).toEqual(200);
+      const getResponse = await getItem(createResponseBody.id);
+      expect(getResponse.code).toEqual(404);
+   });
+
+   it("should gracefully handle deleting a non existing item", async () => {
+      const id = uuid();
+      const deleteResponse = await deleteItem(id);
+      expect(deleteResponse.code).toEqual(404);
    });
 });
