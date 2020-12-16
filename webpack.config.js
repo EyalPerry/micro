@@ -36,6 +36,27 @@ if (isDevelopment) {
 
 entry.push(path.join(rootFolder, "index.ts"));
 
+const sourceCodePipeline = [
+   {
+      loader: "babel-loader",
+      options: require("./babel.config.js"),
+   },
+   {
+      loader: "ts-loader",
+   },
+];
+
+//lint only in CI / Prod builds to not spam dev console
+if (!isDevelopment) {
+   sourceCodePipeline.push({
+      loader: "eslint-loader",
+      options: {
+         failOnError: true,
+         failOnWarning: true,
+      },
+   });
+}
+
 module.exports = {
    watch: isDevelopment,
    mode: isProduction ? "production" : "development",
@@ -55,22 +76,7 @@ module.exports = {
          {
             test: /\.(ts|js)$/,
             exclude: /node_modules/,
-            use: [
-               {
-                  loader: "babel-loader",
-                  options: require("./babel.config.js"),
-               },
-               {
-                  loader: "ts-loader",
-               },
-               {
-                  loader: "eslint-loader",
-                  options: {
-                     failOnError: isProduction,
-                     failOnWarning: isProduction,
-                  },
-               },
-            ],
+            use: sourceCodePipeline,
          },
       ],
    },
