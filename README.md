@@ -18,12 +18,12 @@ stops the development server and frees up associated resources
 ## test
 runs tests against the running server instance. requires the start command to be executed beforehand.
 
-# debugging
+# Debugging
 
 ## VSCode
 Use the Attach To Container configuration.
 
-## Server Fails to Start
+## Server fails to start
 When debugging server startup issues, see `X_APP_DEV_WAIT_FOR_DEBUGGER` env variable in `.dev.env`.
 
 # Documentation
