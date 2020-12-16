@@ -3,7 +3,7 @@ Sometimes, developers need to run (or debug) custom scripts which perform one of
 
 It makes sense to write these functions as part of the service codebase, so that they may be debugged, developed and deployed using the same codebase, methodologies and tools as the app.
 
-Moreover, sometimes we just need to test out an experimental piece of code- so what we usually do is force it into production flows and then remove it (hopefully).
+Moreover, sometimes we just need to test out an experimental piece of code using our application's core logic. What we usually do is force it into production flows and later (hopefully) remove it.
 
 For these purposes, the starter project introduces command support out of the box.
 What's a command? it is a custom function which can be triggered via the command line interface and process any arguments passed into it.
