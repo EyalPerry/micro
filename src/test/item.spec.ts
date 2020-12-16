@@ -42,8 +42,10 @@ describe("item tests", () => {
       expect(getResponseBody).toHaveProperty("value.random", random);
    });
 
-   it("gracefully handle retrieving an item with an unkown id", async () => {
-      throw new Error("not implemented");
+   it("should gracefully handle retrieving a non existing item", async () => {
+      const random = uuid();
+      const getResponse = await getItem(random);
+      expect(getResponse.code).toEqual(404);
    });
 
    it("should update a previously created item", async () => {
@@ -56,5 +58,11 @@ describe("item tests", () => {
       const updateResponseBody = updateResponse.body as UpdateResponse;
       expect(updateResponseBody).toHaveProperty("value.random", random);
       expect(updateResponseBody).toHaveProperty("value.random2", random2);
+   });
+
+   it("should gracefully handle updating a non existing item", async () => {
+      const random = uuid();
+      const updateResponse = await updateItem(random, { name: "something" });
+      expect(updateResponse.code).toEqual(404);
    });
 });
