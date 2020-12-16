@@ -14,9 +14,10 @@ export async function getAppContext(): Promise<IAppContext> {
       config: config.database,
       url: dbUrl,
    };
+
    const dbConnection = await connectToDatabase(dbOptions);
    const models = await getModels(dbConnection, { config });
-   const domain = await getDomainObjects({ config, models, services });
+   const domain = await getDomainObjects();
 
    const context: IAppContext = {
       config,

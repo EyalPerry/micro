@@ -2,7 +2,8 @@ import { Db } from "mongodb";
 import { DatabaseConfig } from "Server/types";
 
 export interface IDatabaseConnection {
-   database: (name: string) => Db;
+   readonly database: Db;
+   getDatabase: (name: string) => Db;
    disconnect: () => Promise<void>;
 }
 

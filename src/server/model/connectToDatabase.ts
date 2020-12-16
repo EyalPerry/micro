@@ -1,5 +1,5 @@
-import { MongoClient, connect, MongoClientOptions } from "mongodb";
-import { DatabaseInstanceOptions, IDatabaseConnection } from "Server/types";
+import { MongoClient, connect, MongoClientOptions, Db } from "mongodb";
+import { DatabaseInstanceOptions, IDatabaseConnection, DatabaseConfig } from "Server/types";
 
 export async function connectToDatabase(
    options: DatabaseInstanceOptions
@@ -13,14 +13,23 @@ export async function connectToDatabase(
    };
 
    const client = await connect(url, clientOptions);
-   return new MongoConnection(client);
+   return new MongoConnection(client, options.config);
 }
 
 class MongoConnection implements IDatabaseConnection {
-   public disconnect = (): Promise<void> => {
+   private _database: Db;
+
+   disconnect = (): Promise<void> => {
       return this.client.close();
    };
 
-   constructor(private client: MongoClient) {}
-   database = (name: string) => this.client.db(name);
+   get database(): Db {
+      return this._database;
+   }
+
+   getDatabase = (name: string) => this.client.db(name);
+
+   constructor(private client: MongoClient, private config: DatabaseConfig) {
+      this._database = this.getDatabase(config.name);
+   }
 }
