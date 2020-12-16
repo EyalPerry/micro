@@ -1,3 +1,7 @@
+# What is this?
+`micro` is Starter project for developing, debugging, testing and deploying a Node.js server application.
+It is not particularly opinionated with regards to libraries, and is more about sane abstractions.
+
 # Notable NPM scripts
 
 ## start
@@ -18,3 +22,6 @@ Use the Attach To Container configuration.
 
 ## Server Fails to Start
 When debugging server startup issues, see `X_APP_DEV_WAIT_FOR_DEBUGGER` env variable in `.dev.env`.
+
+# Documentation
+See `docs` folder (WIP)
