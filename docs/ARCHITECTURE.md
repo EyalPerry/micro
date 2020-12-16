@@ -30,6 +30,8 @@ Validated at runtime. <br/>
 Can be consumed by domain objects, models and services.<br/>
 See `CONFIG.md` for more info.
 
+All of these are aggregated into a single object of the `IAppContext` type. It is constructed in the `getAppContext` method and later provided to the service runtime.
+
 # Expressive HTTP Request / Response Mapping
 This starter enables expressively mapping incoming requests into a single object, invoking a specific domain object function with that single object as the first argument, and pass in the `IRequestContext` as a second argument. The function's result is then converted into a response, according to the expected `IResponse` interface.
 
