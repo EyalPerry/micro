@@ -1,8 +1,4 @@
-import { IItemModel, AppConfig } from "Server/types";
-
-export type ModelsOptions = {
-   config: AppConfig;
-};
+import { IItemModel } from "Server/types";
 
 export interface Models {
    items: IItemModel;

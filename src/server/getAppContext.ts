@@ -16,7 +16,7 @@ export async function getAppContext(): Promise<IAppContext> {
    };
 
    const dbConnection = await connectToDatabase(dbOptions);
-   const models = await getModels(dbConnection, { config });
+   const models = await getModels(dbConnection);
    const domain = await getDomainObjects();
 
    const context: IAppContext = {
