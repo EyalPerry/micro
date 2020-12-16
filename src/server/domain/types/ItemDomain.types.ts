@@ -4,7 +4,7 @@ export interface CreateRequest {
    data: unknown;
 }
 
-export interface ReadResponse {
+export interface CreateResponse {
    id: string;
 }
 
@@ -13,12 +13,12 @@ export interface ReadRequest {
 }
 
 export interface ReadResponse {
-   data: unknown;
+   value: unknown;
 }
 
 export interface UpdateRequest {
    id: string;
-   data: unknown;
+   value: unknown;
 }
 
 export interface DeleteRequest {
@@ -26,7 +26,7 @@ export interface DeleteRequest {
 }
 
 export interface IItemDomain {
-   create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse>>;
+   create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<CreateResponse>>;
 
    readbyId(request: ReadRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse>>;
 

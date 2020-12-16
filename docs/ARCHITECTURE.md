@@ -18,8 +18,8 @@ The application can define as many domain objects as necessary.<br/>
 - Model: a class which encapsulates DB primitives and concerns, whose functions speak only in domain terms.<br/>
 Can be consumed by domain objects.<br/>
 The application can define as many models as necessary.<br/>
-A model can span multiple collections / tables and relates to an entity which makes sense to an application.
-It encapsulates storage.
+A model can span multiple collections / tables and abstracts entities in a manner which makes sense to an application.
+It encapsulates storage and atomicity concerns, such as transactions.
 
 - Service: represents a cross cutting concern, such as Logging, Secret management or Static Asset I/O.<br/>
 Can be consumed by both models and domain objects.<br/>
