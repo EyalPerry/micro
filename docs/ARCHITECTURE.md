@@ -1,7 +1,7 @@
 # Architecture
 This starter aims to separate concerns which are often tightly coupled in applications: domain logic, database access and communication protocols.
 
-Coupling these concerns can Make the following a lot harder<br/>
+Coupling these concerns can make the following a lot harder<br/>
 - Reasoning about the domain
 - Supporting additional protocols
 - Testing the application outside the context of any protocol
@@ -18,6 +18,8 @@ The application can define as many domain objects as necessary.<br/>
 - Model: a class which encapsulates DB primitives and concerns, whose functions speak only in domain terms.<br/>
 Can be consumed by domain objects.<br/>
 The application can define as many models as necessary.<br/>
+A model can span multiple collections / tables and relates to an entity which makes sense to an application.
+It encapsulates storage.
 
 - Service: represents a cross cutting concern, such as Logging, Secret management or Static Asset I/O.<br/>
 Can be consumed by both models and domain objects.<br/>
@@ -28,16 +30,13 @@ Validated at runtime. <br/>
 Can be consumed by domain objects, models and services.<br/>
 See `CONFIG.md` for more info.
 
-# HTTP Request / Response Mapping
-This starter enables to expressively map incoming requests into a single object, invoke a specific domain object function with that single object as the first argument, and pass in the `IRequestContext` as a second argument. The function's result is then converted into an HTTP response.
+# Expressive HTTP Request / Response Mapping
+This starter enables expressively mapping incoming requests into a single object, invoking a specific domain object function with that single object as the first argument, and pass in the `IRequestContext` as a second argument. The function's result is then converted into a response, according to the expected `IResponse` interface.
+
+## Binding Domain Objects to REST over HTTP
 
 HTTP endpoint files are picked up dynamically, by naming convention & folder location:
 Any file located under `src/server/http/endpoints` whose postfix is `endpoint.ts` is picked up and it's default export is processed.
 See the `IHttpEndpoint` and `IHttpHandler` interfaces and `Item.endpoint.ts` module for usage examples.
-
-In order for the response mapping to work, each domain object is implicitly expected to return an `IResponse` shape.
-
-## Binding Domain Objects to REST over HTTP
-See `src/server/http/endpoints` folder and look into how a `*.endpoint.ts` is implemented.
 
 The binding magic happens in the `src/server/http/middleware/rest` file, and can be easily applied to any other protocol.
