@@ -18,11 +18,11 @@ export const startHTTPServer = async (context: IAppContext): Promise<void> => {
 };
 
 const onHttpServerListening = (context: IAppContext) => (): void => {
-   context.services.logger.debug(
+   context.services.appLogger.debug(
       `listening on http://${context.config.http.host}:${context.config.http.port}`
    );
 };
 
 const onHttpServerError = (context: IAppContext) => (err: unknown, ctx: Context): void => {
-   context.services.logger.error("server error", err, ctx);
+   context.services.appLogger.error("server error", err, ctx);
 };

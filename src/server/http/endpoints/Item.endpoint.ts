@@ -9,7 +9,7 @@ const create: IHttpHandler<"item", "create"> = {
 };
 
 const endpoint: IHttpEndpoint = {
-   route: "/item",
+   route: "/items",
    handlers: [create],
 };
 
