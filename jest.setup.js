@@ -6,5 +6,3 @@ jasmine.getEnv().addReporter({
       globalThis.TEST_NAME = result.fullName;
    },
 });
-
-globalThis.SERVER_URL = process.env.X_APP_TEST_SERVER_URL;
