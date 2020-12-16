@@ -6,4 +6,5 @@ This starter is all about the developer experience!
  - Debugging startup issues? Search for X_APP_DEV_NODE_WAIT_FOR_DEBUGGER
  - Using VS Code? Attaching to a debugger config is baked in
  - Want to run integration tests against the service and debug the service during test runtime or debug the tests themselves? Sure thing.
- - Want to run a command, such as seeding your db or debugging a migration? Search for X_APP_DEV_ARGV
+ - Configuration? We have you covered.
+ - Want to run a one off script? see COMMANDS.md
