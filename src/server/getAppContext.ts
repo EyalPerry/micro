@@ -7,7 +7,7 @@ import { getDomainObjects } from "Server/domain";
 export async function getAppContext(): Promise<IAppContext> {
    const config = await getConfig();
    const services = await getServices({ config });
-   services.logger.debug("running with config", config);
+   services.appLogger.debug("running with config", config);
 
    const dbUrl = await services.secret.dbUrl;
    const dbOptions: DatabaseInstanceOptions = {

@@ -2,7 +2,7 @@ export type ErrorResponse =
    | "unauthenticated"
    | "not-found"
    | "bad-request"
-   | "unexpected"
+   | "unexpected-error"
    | "unauthorized"
    | "insufficient-subscription"
    | "not-implemented"

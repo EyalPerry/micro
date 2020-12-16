@@ -15,6 +15,7 @@ For developers
 - HTTP Request - get created entity
 
 # Upcoming Feature Roadmap
+- Request Validation for params, query and body
 - Logging
 - OAuth2 / OIDC
 - K8S (health/readiness probes)

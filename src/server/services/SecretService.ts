@@ -1,9 +1,7 @@
-import { ISecretService, ServiceDefinition, ServiceContext } from "Server/types";
+import { ISecretService } from "Server/types";
 
 //TODO use proxy + convention instead of getters
 export class SecretService implements ISecretService {
-   constructor(private context: ServiceContext) {}
-
    private getValue = async (key: string): Promise<string> => {
       const result = process.env[key];
 
@@ -18,8 +16,3 @@ export class SecretService implements ISecretService {
       return this.getValue("X_APP_VARS_DB_URL");
    }
 }
-
-export const definition: ServiceDefinition<"secret"> = {
-   name: "secret",
-   factory: (options) => new SecretService(options),
-};

@@ -1,34 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-   Services,
-   ServiceContext,
-   ServiceDefinition,
-   GetServicesOptions,
-   ServiceDefinitions,
-} from "Server/types";
+import { Services, GetServicesOptions } from "Server/types";
 
-import { definition as logger } from "./LoggerService";
-import { definition as secret } from "./SecretService";
-
-export const definitions: ServiceDefinitions = {
-   secret,
-   logger,
-};
+import { LoggerFactoryService } from "./LoggerService";
+import { SecretService } from "./SecretService";
 
 export const getServices = async (options: GetServicesOptions): Promise<Services> => {
-   const services: Services = {} as any;
-
-   return Object.values(definitions).reduce(
-      (result: any, definition: ServiceDefinition<keyof Services>) => {
-         const { name, factory } = definition;
-         const objectOptions: ServiceContext = {
-            services,
-            config: options.config,
-         };
-
-         result[name] = factory(objectOptions);
-         return result;
-      },
-      services
-   );
+   const loggerFactory = new LoggerFactoryService();
+   return {
+      loggerFactory,
+      secret: new SecretService(),
+      appLogger: loggerFactory.create({ context: "app" }),
+   };
 };

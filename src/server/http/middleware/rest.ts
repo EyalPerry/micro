@@ -1,3 +1,4 @@
+import { IRequestContext } from "./../../types/Request.types";
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Koa from "koa";
@@ -29,7 +30,7 @@ const outcomeToResponseMap: OutcomeToHttpResponseMap = {
    "not-found": HttpClientError.NotFound,
    created: HttpSuccess.Created,
    unauthenticated: HttpClientError.Unauthorized,
-   unexpected: HttpServerError.Internal,
+   "unexpected-error": HttpServerError.Internal,
    ok: HttpSuccess.Ok,
    "not-implemented": HttpServerError.NotImplemented,
    "insufficient-subscription": HttpClientError.PaymentRequired,
@@ -46,7 +47,7 @@ function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any):
    }
 }
 
-function createHandlerMiddleware(context: IAppContext, handler: IHttpHandler<any, any>) {
+function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<any, any>) {
    return async function handlerWrapperMiddleware(ctx: Context, next: Function) {
       const request: any = {
          ...(ctx.request.body || {}),
@@ -58,25 +59,67 @@ function createHandlerMiddleware(context: IAppContext, handler: IHttpHandler<any
          _.set(request, path, ctx.get(header));
       });
 
-      const requestId = ctx.get(requestIdHeader) || uuid();
-      context.services.logger.debug("received request", request);
+      let requestId = ctx.get(requestIdHeader);
 
-      const domainObject = _.get(context.domain, handler.domain);
-      const func: Function = _.get(domainObject, handler.func);
-
-      const requestContext = {
-         id: requestId,
-         context,
-      };
-
-      const response = await func.call(domainObject, request, requestContext);
-
-      if (response.meta) {
-         ctx.set(response.meta);
+      if (!requestId) {
+         requestId = uuid();
+         ctx.set(requestIdHeader, requestId);
       }
 
-      ctx.set(requestIdHeader, requestId);
-      respondWithOutcome(ctx, response.outcome, response.body);
+      appContext.services.appLogger.debug("received request", request);
+
+      const domainObject = _.get(appContext.domain, handler.domain);
+
+      if (!domainObject) {
+         appContext.services.appLogger.fatal("unknown-domain-object", {
+            domain: handler.domain,
+            func: handler.func,
+            url: ctx.url,
+         });
+         respondWithOutcome(ctx, "unexpected-error");
+         return;
+      }
+
+      const func: Function = _.get(domainObject, handler.func);
+
+      if (!func) {
+         appContext.services.appLogger.fatal("unknown-domain-function", {
+            domain: handler.domain,
+            func: handler.func,
+            url: ctx.url,
+         });
+         respondWithOutcome(ctx, "unexpected-error");
+         return;
+      }
+
+      const requestContext: IRequestContext = {
+         id: requestId,
+         app: appContext,
+         logger: appContext.services.loggerFactory.create({
+            context: "request",
+            headerData: [["request-id", requestId]],
+         }),
+      };
+
+      requestContext.logger.trace("handling request", {
+         domain: handler.domain,
+         func: handler.func,
+      });
+
+      try {
+         const response = await func.call(domainObject, request, requestContext);
+         requestContext.logger.trace("request handled");
+         if (response.meta) {
+            ctx.set(response.meta);
+         }
+
+         ctx.set(requestIdHeader, requestId);
+         respondWithOutcome(ctx, response.outcome, response.body);
+      } catch (err) {
+         requestContext.logger.httpError(ctx, err);
+         respondWithOutcome(ctx, "unexpected-error");
+      }
+
       await next();
    };
 }

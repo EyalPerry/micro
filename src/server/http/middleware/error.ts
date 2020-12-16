@@ -10,7 +10,7 @@ const middleware = (context: IAppContext) => async (
       await next();
    } catch (err) {
       //TODO log more info from ctx
-      context.services.logger.error(err);
+      context.services.appLogger.httpError(ctx, err);
       ctx.status = HttpServerError.Internal;
       ctx.body = ":(";
    }
