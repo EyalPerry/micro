@@ -25,7 +25,7 @@ const jsonMap: JsonMap = context.keys().reduce((result: JsonMap, key: string) =>
 export async function seedDatabase(ctx: IAppContext, options: SeedDatabaseOptions): Promise<void> {
    async function seedCollection(collectionData: unknown[], collectionName: string): Promise<void> {
       await ctx.databaseConnection
-         .database(options.db)
+         .getDatabase(options.db)
          .collection(collectionName)
          .insertMany(collectionData);
    }
