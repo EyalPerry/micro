@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-types */
-import { DomainObjects } from "Server/types";
+import { DomainObjects, IRequestContext, Schema } from "Server/types";
 
 export type HttpMethod = "get" | "put" | "post" | "delete" | "patch" | "head" | "options";
+
+export type SchemaFactory = (request: Record<string, unknown>, ctx: IRequestContext) => Schema<any>;
+export type HttpHandlerSchema = Schema<any> | SchemaFactory | null;
 
 export interface IHttpHandler<
    TDomain extends keyof DomainObjects,
@@ -11,6 +13,7 @@ export interface IHttpHandler<
    route: string | string[];
    method: HttpMethod;
    domain: TDomain;
+   schema: HttpHandlerSchema;
    func: TFunc;
    fromHeaders?: {
       [header: string]: string;
