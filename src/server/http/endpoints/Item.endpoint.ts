@@ -1,5 +1,4 @@
 import { object, string } from "Server/validation";
-/* eslint-disable @typescript-eslint/ban-types */
 import { IHttpHandler, IHttpEndpoint } from "Server/types";
 
 const create: IHttpHandler<"item", "create"> = {
