@@ -5,9 +5,10 @@ export * from "./connectToDatabase";
 
 export async function getModels(
    connection: IDatabaseConnection,
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
    options: ModelsOptions
 ): Promise<Models> {
    return {
-      items: new ItemModel(connection, options),
+      items: new ItemModel(connection.database),
    };
 }

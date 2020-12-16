@@ -42,7 +42,7 @@ const outcomeToResponseMap: OutcomeToHttpResponseMap = {
 function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any): void {
    const status = outcomeToResponseMap[outcome];
    ctx.status = status;
-   if (typeof body !== "undefined" && body !== null) {
+   if (!_.isNil(body)) {
       ctx.body = body;
    }
 }

@@ -8,9 +8,30 @@ const create: IHttpHandler<"item", "create"> = {
    func: "create",
 };
 
+const readById: IHttpHandler<"item", "readbyId"> = {
+   route: "/:id",
+   method: "get",
+   domain: "item",
+   func: "readbyId",
+};
+
+const updateById: IHttpHandler<"item", "updateById"> = {
+   route: "/:id",
+   method: "put",
+   domain: "item",
+   func: "updateById",
+};
+
+const deleteById: IHttpHandler<"item", "deleteById"> = {
+   route: "/:id",
+   method: "delete",
+   domain: "item",
+   func: "deleteById",
+};
+
 const endpoint: IHttpEndpoint = {
    route: "/items",
-   handlers: [create],
+   handlers: [create, readById, updateById, deleteById],
 };
 
 export default endpoint;
