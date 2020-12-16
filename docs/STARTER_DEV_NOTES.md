@@ -15,6 +15,7 @@ For developers
 - HTTP Request - get created entity
 
 # Upcoming Feature Roadmap
+- GraphQL
 - Request Validation for params, query and body
 - Logging
 - OAuth2 / OIDC
