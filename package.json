@@ -13,7 +13,7 @@
   "scripts": {
     "start": "docker-compose up -t 0 --remove-orphans --force-recreate",
     "stop": "docker-compose down -t 0 --remove-orphans",
-    "test": "dotenv jest",
+    "test": "jest",
     "build": "webpack",
     "watch": "nodemon --ignore dist/*.* --watch src --exec npm run build",
     "ci:env": "npm run start -- -f docker-compose.ci.yml --exit-code-from app --abort-on-container-exit"
