@@ -44,7 +44,7 @@ function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any):
    const status = outcomeToResponseMap[outcome];
    ctx.status = status;
    if (!_.isNil(body)) {
-      ctx.body = body;
+      ctx.body = _.omitBy(body, _.isNil);
    }
 }
 
@@ -119,7 +119,7 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
          }
 
          ctx.set(requestIdHeader, requestId);
-         respondWithOutcome(ctx, response.outcome, response.data);
+         respondWithOutcome(ctx, response.outcome, response.payload);
       } catch (err) {
          requestContext.logger.httpError(ctx, err);
          respondWithOutcome(ctx, "unexpected-error");

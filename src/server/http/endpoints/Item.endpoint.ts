@@ -17,7 +17,7 @@ const readById: IHttpHandler<"item", "readbyId"> = {
 
 const updateById: IHttpHandler<"item", "updateById"> = {
    route: "/:id",
-   method: "put",
+   method: "patch",
    domain: "item",
    func: "updateById",
 };

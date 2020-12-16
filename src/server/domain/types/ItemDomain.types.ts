@@ -1,7 +1,7 @@
 import { IResponse, IRequestContext } from "Server/types";
 
 export interface CreateRequest {
-   data: unknown;
+   data: Record<string, unknown>;
 }
 
 export interface CreateResponse {
@@ -13,12 +13,16 @@ export interface ReadRequest {
 }
 
 export interface ReadResponse {
-   value: unknown;
+   value: Record<string, unknown>;
 }
 
 export interface UpdateRequest {
    id: string;
-   value: unknown;
+   data: Record<string, unknown>;
+}
+
+export interface UpdateResponse {
+   value: Record<string, unknown>;
 }
 
 export interface DeleteRequest {
@@ -28,9 +32,12 @@ export interface DeleteRequest {
 export interface IItemDomain {
    create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<CreateResponse>>;
 
-   readbyId(request: ReadRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse>>;
+   readbyId(request: ReadRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse | null>>;
 
-   updateById(request: UpdateRequest, ctx: IRequestContext): Promise<IResponse<unknown>>;
+   updateById(
+      request: UpdateRequest,
+      ctx: IRequestContext
+   ): Promise<IResponse<UpdateResponse | null>>;
 
    deleteById(request: DeleteRequest, ctx: IRequestContext): Promise<IResponse<unknown>>;
 }

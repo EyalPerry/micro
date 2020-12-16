@@ -8,6 +8,7 @@ import {
    ReadResponse,
    UpdateRequest,
    CreateResponse,
+   UpdateResponse,
 } from "Server/types";
 
 export class ItemDomain implements IItemDomain {
@@ -15,22 +16,29 @@ export class ItemDomain implements IItemDomain {
       const id = await ctx.app.models.items.create(request.data);
       return {
          outcome: "created",
-         data: { id },
+         payload: { id },
       };
    }
 
-   async readbyId(request: ReadRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse>> {
+   async readbyId(
+      request: ReadRequest,
+      ctx: IRequestContext
+   ): Promise<IResponse<ReadResponse | null>> {
       const value = await ctx.app.models.items.getById(request.id);
       return {
          outcome: value ? "ok" : "not-found",
-         data: { value },
+         payload: value ? { value } : null,
       };
    }
 
-   async updateById(request: UpdateRequest, ctx: IRequestContext): Promise<IResponse<unknown>> {
-      const success = await ctx.app.models.items.shallowUpdateById(request.id, request.value);
+   async updateById(
+      request: UpdateRequest,
+      ctx: IRequestContext
+   ): Promise<IResponse<UpdateResponse | null>> {
+      const value = await ctx.app.models.items.shallowUpdateById(request.id, request.data);
       return {
-         outcome: success ? "ok" : "not-found",
+         outcome: value ? "ok" : "not-found",
+         payload: value ? { value } : null,
       };
    }
 

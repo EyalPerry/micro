@@ -14,6 +14,6 @@ export type ResponseOutcome = ErrorResponse | SuccessfulResponse;
 
 export interface IResponse<T> {
    outcome: ResponseOutcome;
-   data?: T;
+   payload?: T;
    meta?: { [key: string]: string };
 }

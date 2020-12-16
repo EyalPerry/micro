@@ -5,14 +5,14 @@ export interface IItemModel {
     * @param value item to persist
     * @returns id of persisted item
     */
-   create(value: unknown): Promise<string>;
+   create(value: Record<string, unknown>): Promise<string>;
 
    /**
     * Loads the item whose id is specified from persistence
     * @param id id of item
     * @returns either the item or undefined if the item does not exist.
     */
-   getById(id: string): Promise<unknown | undefined>;
+   getById(id: string): Promise<Record<string, unknown> | null>;
 
    /**
     * Updates an item whose id is specified with the fields in the specified value
@@ -20,9 +20,12 @@ export interface IItemModel {
     * Implementation does not recursively merge properties with the persisted item.
     * @param id id of item
     * @param value value to use
-    * @returns true if the value exists and the operation succeeded, false otherwise
+    * @returns the updated object if it exists and the operation succeeded, false otherwise
     */
-   shallowUpdateById(id: string, value: unknown): Promise<boolean>;
+   shallowUpdateById(
+      id: string,
+      value: Record<string, unknown>
+   ): Promise<Record<string, unknown> | null>;
 
    /**
     * Deletes the item whose id is specified

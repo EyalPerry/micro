@@ -5,7 +5,7 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, Method } from "ax
 
 export type StringMap = { [key: string]: string };
 
-export type Response = {
+export type HttpResponse = {
    code: number;
    body?: unknown;
    headers: StringMap;
@@ -65,18 +65,21 @@ export class HttpTestClient {
       }
    };
 
-   get = (url: string, options: { query?: StringMap; headers?: StringMap }): Promise<Response> =>
-      this.request(url, "get", { params: options.query, headers: options.headers });
+   get = (
+      url: string,
+      options?: { query?: StringMap; headers?: StringMap }
+   ): Promise<HttpResponse> =>
+      this.request(url, "get", { params: options?.query, headers: options?.headers });
 
-   post = (url: string, options: { body: unknown; headers?: StringMap }): Promise<Response> =>
-      this.request(url, "post", { data: options.body, headers: options.headers });
+   post = (url: string, options: { body: unknown; headers?: StringMap }): Promise<HttpResponse> =>
+      this.request(url, "post", { data: options?.body, headers: options?.headers });
 
-   put = (url: string, options: { body: unknown; headers?: StringMap }): Promise<Response> =>
+   put = (url: string, options: { body: unknown; headers?: StringMap }): Promise<HttpResponse> =>
       this.request(url, "put", { data: options.body, headers: options.headers });
 
-   patch = (url: string, options: { body: unknown; headers?: StringMap }): Promise<Response> =>
+   patch = (url: string, options: { body: unknown; headers?: StringMap }): Promise<HttpResponse> =>
       this.request(url, "patch", { data: options.body, headers: options.headers });
 
-   delete = (url: string, options: { headers?: StringMap }): Promise<Response> =>
-      this.request(url, "delete", { headers: options.headers });
+   delete = (url: string, options?: { headers?: StringMap }): Promise<HttpResponse> =>
+      this.request(url, "delete", { headers: options?.headers });
 }
