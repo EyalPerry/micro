@@ -1,11 +1,11 @@
 import Koa from "koa";
 
-import { IAppContext, IEndpoint } from "Server/types";
+import { IAppContext, IHttpEndpoint } from "Server/types";
 
 import error from "./error";
 import rest from "./rest";
 
-export default (app: Koa, endpoints: IEndpoint[], context: IAppContext): void => {
+export default (app: Koa, endpoints: IHttpEndpoint[], context: IAppContext): void => {
    const middlewares = [error];
 
    for (const middleware of middlewares) {

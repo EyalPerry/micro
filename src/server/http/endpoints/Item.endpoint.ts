@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { IHandler, IEndpoint } from "Server/types";
+import { IHttpHandler, IHttpEndpoint } from "Server/types";
 
-const create: IHandler<"item", "create"> = {
+const create: IHttpHandler<"item", "create"> = {
    route: "/",
    method: "post",
    domain: "item",
    func: "create",
 };
 
-const endpoint: IEndpoint = {
-   route: "/item",
+const endpoint: IHttpEndpoint = {
+   route: "/items",
    handlers: [create],
 };
 

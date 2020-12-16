@@ -1,9 +1,11 @@
-import {
-   ILoggerService,
-   ISecretService,
-} from "Server/types";
+import { AppConfig, ILoggerFactoryService, ISecretService, ILoggerService } from "Server/types";
 
 export interface Services {
-   logger: ILoggerService;
+   loggerFactory: ILoggerFactoryService;
+   appLogger: ILoggerService;
    secret: ISecretService;
+}
+
+export interface GetServicesOptions {
+   config: AppConfig;
 }

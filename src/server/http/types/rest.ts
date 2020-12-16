@@ -4,7 +4,7 @@ import { DomainObjects } from "Server/types";
 
 export type HttpMethod = "get" | "put" | "post" | "delete" | "patch" | "head" | "options";
 
-export interface IHandler<
+export interface IHttpHandler<
    TDomain extends keyof DomainObjects,
    TFunc extends keyof DomainObjects[TDomain]
 > {
@@ -17,7 +17,7 @@ export interface IHandler<
    };
 }
 
-export interface IEndpoint {
+export interface IHttpEndpoint {
    route: string;
-   handlers: IHandler<any, any>[];
+   handlers: IHttpHandler<any, any>[];
 }

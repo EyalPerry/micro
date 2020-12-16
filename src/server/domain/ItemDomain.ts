@@ -1,8 +1,9 @@
-import { DomainOptions, IItemDomain, IRequest, IResponse } from "Server/types";
+import { DomainOptions, IItemDomain, IRequestContext, IResponse } from "Server/types";
 
 export class ItemDomain implements IItemDomain {
    constructor(private options: DomainOptions) {}
-   create = async (request: IRequest<unknown>): Promise<IResponse<unknown>> => {
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   create = async (request: unknown, ctx: IRequestContext): Promise<IResponse<unknown>> => {
       return {
          outcome: "not-implemented",
       };

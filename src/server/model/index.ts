@@ -1,6 +1,6 @@
 import { ModelsOptions, Models, IDatabaseConnection } from "Server/types";
 
-import { Entity } from "./Entity.model";
+import { ItemModel } from "./ItemModel";
 export * from "./connectToDatabase";
 
 export async function getModels(
@@ -8,6 +8,6 @@ export async function getModels(
    options: ModelsOptions
 ): Promise<Models> {
    return {
-      entity: new Entity(connection, options),
+      items: new ItemModel(connection, options),
    };
 }

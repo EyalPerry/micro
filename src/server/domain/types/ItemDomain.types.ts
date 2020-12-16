@@ -1,5 +1,5 @@
-import { IResponse, IRequest } from "Server/types";
+import { IResponse, IRequestContext } from "Server/types";
 
 export interface IItemDomain {
-   create(request: IRequest<unknown>): Promise<IResponse<unknown>>;
+   create(request: unknown, ctx: IRequestContext): Promise<IResponse<unknown>>;
 }

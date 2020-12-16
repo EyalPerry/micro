@@ -16,7 +16,6 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "Common/*": ["src/common/*"],
       "Server/*": ["src/server/*"],
       "Test/*": ["src/test/*"]
     }
