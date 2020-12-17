@@ -6,9 +6,6 @@ const create: IHttpHandler<"item", "create"> = {
    method: "post",
    domain: "item",
    func: "create",
-   schema: object({
-      data: object({}),
-   }),
 };
 
 const readById: IHttpHandler<"item", "readbyId"> = {
@@ -16,9 +13,6 @@ const readById: IHttpHandler<"item", "readbyId"> = {
    method: "get",
    domain: "item",
    func: "readbyId",
-   schema: object({
-      id: string(),
-   }),
 };
 
 const updateById: IHttpHandler<"item", "updateById"> = {
@@ -26,19 +20,12 @@ const updateById: IHttpHandler<"item", "updateById"> = {
    method: "patch",
    domain: "item",
    func: "updateById",
-   schema: object({
-      data: object({}),
-      id: string(),
-   }),
 };
 
 const deleteById: IHttpHandler<"item", "deleteById"> = {
    route: "/:id",
    method: "delete",
    domain: "item",
-   schema: object({
-      id: string(),
-   }),
    func: "deleteById",
 };
 
