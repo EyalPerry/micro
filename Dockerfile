@@ -10,7 +10,7 @@ COPY . .
 RUN ["npm", "run", "ci"]
 ENV NODE_ENV production
 ENV X_APP_NAME ${APP_NAME}
-RUN ["npx", "run", "build"]
+RUN ["npm", "run", "build"]
 RUN ["npm", "prune", "--production"]
 
 FROM ${BASE_IMAGE}
