@@ -1,5 +1,5 @@
 import { DomainObjects } from "Server/types";
-import { ItemDomain } from "./ItemDomain";
+import { ItemDomain } from "./Items.domain";
 
 export async function getDomainObjects(): Promise<DomainObjects> {
    return {

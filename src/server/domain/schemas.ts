@@ -1,2 +1,3 @@
-//TODO at runtime ensure every domain objects has schemas.
-//dynamically pick em up with webpack.
+import { DomainObjectsSchemas } from "Server/types";
+
+export const schemas: DomainObjectsSchemas = {};

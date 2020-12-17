@@ -1,4 +1,4 @@
-import { IResponse, IRequestContext } from "Server/types";
+import { IResponse, IRequestContext, DomainFunction } from "Server/types";
 
 export interface CreateRequest {
    data: Record<string, unknown>;
@@ -29,15 +29,9 @@ export interface DeleteRequest {
    id: string;
 }
 
-export interface IItemDomain {
-   create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<CreateResponse>>;
-
-   readbyId(request: ReadRequest, ctx: IRequestContext): Promise<IResponse<ReadResponse | null>>;
-
-   updateById(
-      request: UpdateRequest,
-      ctx: IRequestContext
-   ): Promise<IResponse<UpdateResponse | null>>;
-
-   deleteById(request: DeleteRequest, ctx: IRequestContext): Promise<IResponse<unknown>>;
-}
+export type IItemDomain = {
+   create: DomainFunction<CreateRequest, CreateResponse>;
+   readbyId: DomainFunction<ReadRequest, ReadResponse | null>;
+   updateById: DomainFunction<UpdateRequest, UpdateResponse | null>;
+   deleteById: DomainFunction<DeleteRequest, unknown>;
+};
