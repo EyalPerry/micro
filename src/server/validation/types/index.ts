@@ -1,7 +1,7 @@
 import { Schema } from "yup";
 import { DomainObjects, IRequestContext } from "Server/types";
 
-export { ValidateOptions as ValidationOptions } from "yup";
+export { Schema, ValidateOptions as ValidationOptions } from "yup";
 
 export type SchemaFactory = <T>(request: T, ctx: IRequestContext) => Schema<T>;
 export type HandlerSchema<T> = Schema<T> | SchemaFactory | null;

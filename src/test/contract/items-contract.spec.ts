@@ -1,6 +1,7 @@
+import { generateDatabaseId } from "Test/util";
 import { CreateResponse, ReadResponse, UpdateResponse } from "Server/types";
 import { uuid } from "Server/util";
-import { HttpTestClient, HttpResponse } from "./contract/http-test-client";
+import { HttpTestClient, HttpResponse } from "./http-test-client";
 
 describe("item contract tests", () => {
    let client: HttpTestClient;
@@ -47,8 +48,7 @@ describe("item contract tests", () => {
    });
 
    it("should gracefully handle retrieving a non existing item", async () => {
-      const random = uuid();
-      const getResponse = await getItem(random);
+      const getResponse = await getItem(generateDatabaseId());
       expect(getResponse.code).toEqual(404);
    });
 
@@ -65,8 +65,7 @@ describe("item contract tests", () => {
    });
 
    it("should gracefully handle updating a non existing item", async () => {
-      const random = uuid();
-      const updateResponse = await updateItem(random, { name: "something" });
+      const updateResponse = await updateItem(generateDatabaseId(), { name: "something" });
       expect(updateResponse.code).toEqual(404);
    });
 
@@ -81,8 +80,7 @@ describe("item contract tests", () => {
    });
 
    it("should gracefully handle deleting a non existing item", async () => {
-      const id = uuid();
-      const deleteResponse = await deleteItem(id);
+      const deleteResponse = await deleteItem(generateDatabaseId());
       expect(deleteResponse.code).toEqual(404);
    });
 });
