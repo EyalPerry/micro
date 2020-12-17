@@ -12,4 +12,7 @@ export interface DomainObjects {
 export type DomainFuncRequest<
    Domain extends keyof DomainObjects,
    Func extends keyof DomainObjects[Domain]
+   //TODO follow up on https://github.com/microsoft/TypeScript/issues/42018
+   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+   //@ts-expect-error
 > = Parameters<DomainObjects[Domain][Func]>;
