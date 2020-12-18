@@ -103,6 +103,11 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
          }),
       };
 
+      requestContext.logger.trace("handling-request", {
+         domain: handler.domain,
+         func: handler.func,
+      });
+
       try {
          request = await validateDomainFuncRequest(handler.domain, handler.func, request);
       } catch (err) {
@@ -114,18 +119,13 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
          return;
       }
 
-      requestContext.logger.trace("handling request", {
-         domain: handler.domain,
-         func: handler.func,
-      });
-
       try {
          const response: IResponse<unknown> = await func.call(
             domainObject,
             request,
             requestContext
          );
-         requestContext.logger.trace("request handled");
+         requestContext.logger.trace("request-handled");
          if (response.meta) {
             ctx.set(response.meta);
          }
