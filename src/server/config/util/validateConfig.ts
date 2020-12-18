@@ -3,7 +3,7 @@
 import { AppConfig, ValidationOptions } from "Server/types";
 import { object, validate } from "Server/validation";
 
-import { schema } from "../schema";
+import { appConfig } from "../AppConfig.schema";
 
 export async function validateConfig(value: any): Promise<AppConfig> {
    const options: ValidationOptions = {
@@ -12,5 +12,5 @@ export async function validateConfig(value: any): Promise<AppConfig> {
       recursive: true,
    };
 
-   return validate<AppConfig>(object(schema).required(), value, options);
+   return validate<AppConfig>(object(appConfig).required(), value, options);
 }

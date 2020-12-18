@@ -1,11 +1,22 @@
-import { CreateRequest, DomainObjectSchemas } from "Server/types";
-import * as v from "Server/validation";
+import * as yup from "yup";
 
-import * as yup from "yup/index";
-export const schema: DomainObjectSchemas<"item"> = {
-   create: yup
-      .object<CreateRequest>({
-         data: yup.object(),
-      })
-      .defined(),
-};
+export const item = yup.object();
+const id = yup.string();
+
+export const createRequest = yup.object({
+   data: item.required(),
+});
+
+export const readRequest = yup.object({
+   id: id.required(),
+});
+
+export const updateRequest = yup.object({
+   id: id.required(),
+   data: item.required(),
+});
+
+export const deleteRequest = yup.object({
+   id: id.required(),
+});
+

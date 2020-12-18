@@ -2,7 +2,6 @@ export * from "Server/config/types";
 export * from "Server/domain/types";
 export * from "Server/http/types";
 export * from "Server/services/types";
-export * from "Server/validation/types";
 export * from "Server/model/types";
 export * from "Server/commands/types";
 export * from "./AppContext.types";

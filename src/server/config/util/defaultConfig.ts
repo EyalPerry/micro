@@ -1,4 +1,4 @@
-import { AppConfig, ServerConfig, DatabaseConfig, HttpConfig } from "Server/types";
+import { AppConfig, DatabaseConfig, HttpConfig } from "Server/types";
 
 const database: DatabaseConfig = {
    name: process.env.X_APP_DB_NAME || "dev",
@@ -14,12 +14,8 @@ const http: HttpConfig = {
    },
 };
 
-const server: ServerConfig = {
-   maxItemsPerPage: 20,
-};
-
 export const defaultConfig: AppConfig = {
    database,
-   server,
    http,
+   environment: "production",
 };
