@@ -1,6 +1,6 @@
 import { DomainFuncRequestSchemas } from "Server/types";
 import * as items from "./Items.schema";
 
-export const schemas: DomainFuncRequestSchemas = {
+export const domainSchemas: DomainFuncRequestSchemas = {
    items,
 };

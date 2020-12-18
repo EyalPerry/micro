@@ -20,6 +20,7 @@ import {
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
+import { validateDomainFuncRequest } from "Server/domain/validateDomainFuncRequest";
 
 type OutcomeToHttpResponseMap = {
    [Outcome in ResponseOutcome]: HttpStatus;
@@ -50,7 +51,7 @@ function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any):
 
 function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<any, any>) {
    return async function handlerWrapperMiddleware(ctx: Context, next: Function) {
-      const request: any = {
+      let request: any = {
          ...(ctx.request.body || {}),
          ...(ctx.query || {}),
          ...(ctx.params || {}),
@@ -101,6 +102,17 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
             headerData: [["request-id", requestId]],
          }),
       };
+
+      try {
+         request = await validateDomainFuncRequest(handler.domain, handler.func, request);
+      } catch (err) {
+         respondWithOutcome(ctx, "bad-request", err);
+         requestContext.logger.trace("bad-request", {
+            domain: handler.domain,
+            func: handler.func,
+         });
+         return;
+      }
 
       requestContext.logger.trace("handling request", {
          domain: handler.domain,
