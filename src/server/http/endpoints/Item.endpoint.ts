@@ -1,31 +1,30 @@
-import { object, string } from "Server/validation";
 import { IHttpHandler, IHttpEndpoint } from "Server/types";
 
-const create: IHttpHandler<"item", "create"> = {
+const create: IHttpHandler<"items", "create"> = {
    route: "/",
    method: "post",
-   domain: "item",
+   domain: "items",
    func: "create",
 };
 
-const readById: IHttpHandler<"item", "readbyId"> = {
+const readById: IHttpHandler<"items", "readById"> = {
    route: "/:id",
    method: "get",
-   domain: "item",
-   func: "readbyId",
+   domain: "items",
+   func: "readById",
 };
 
-const updateById: IHttpHandler<"item", "updateById"> = {
+const updateById: IHttpHandler<"items", "updateById"> = {
    route: "/:id",
    method: "patch",
-   domain: "item",
+   domain: "items",
    func: "updateById",
 };
 
-const deleteById: IHttpHandler<"item", "deleteById"> = {
+const deleteById: IHttpHandler<"items", "deleteById"> = {
    route: "/:id",
    method: "delete",
-   domain: "item",
+   domain: "items",
    func: "deleteById",
 };
 

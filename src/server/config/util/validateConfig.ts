@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AppConfig, ValidationOptions } from "Server/types";
-import { object, validate } from "Server/validation";
-
+import { AppConfig } from "Server/types";
 import { appConfig } from "../AppConfig.schema";
 
 export async function validateConfig(value: any): Promise<AppConfig> {
-   const options: ValidationOptions = {
+   const options = {
       stripUnknown: true,
       abortEarly: false,
       recursive: true,
    };
 
-   return validate<AppConfig>(object(appConfig).required(), value, options);
+   return appConfig.validate(value, options);
 }

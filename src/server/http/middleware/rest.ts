@@ -1,4 +1,5 @@
-import { IRequestContext } from "./../../types/Request.types";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Koa from "koa";
@@ -17,10 +18,10 @@ import {
    IHttpEndpoint,
    IHttpHandler,
    IResponse,
+   IRequestContext,
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
-import { validateDomainFuncRequest } from "Server/domain/validateDomainFuncRequest";
 
 type OutcomeToHttpResponseMap = {
    [Outcome in ResponseOutcome]: HttpStatus;
@@ -49,7 +50,32 @@ function respondWithOutcome(ctx: Context, outcome: ResponseOutcome, body?: any):
    }
 }
 
+export async function validateDomainFuncRequest(
+   domain: string,
+   func: string,
+   value: Record<string, unknown>,
+   options: { patchable: boolean }
+): Promise<unknown> {
+   //TODO figure out TS debt later
+   //@ts-ignore
+   const domainSchema = domainSchemas[domain];
+   if (!domainSchema) {
+      throw new Error(`no such domain schema: ${domain}`);
+   }
+
+   //TODO figure out TS debt later
+   //@ts-ignore
+   const funcSchema = domainSchema[func] as AnySchema;
+
+   if (!domainSchema) {
+      throw new Error(`no such domain schema: ${domain}`);
+   }
+
+   return funcSchema.validate(value, { stripUnknown: true, context: options });
+}
+
 function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<any, any>) {
+   const patchable = handler.method === "patch";
    return async function handlerWrapperMiddleware(ctx: Context, next: Function) {
       let request: any = {
          ...(ctx.request.body || {}),
@@ -109,7 +135,9 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
       });
 
       try {
-         request = await validateDomainFuncRequest(handler.domain, handler.func, request);
+         request = await validateDomainFuncRequest(handler.domain, handler.func, request, {
+            patchable,
+         });
       } catch (err) {
          respondWithOutcome(ctx, "bad-request", err);
          requestContext.logger.trace("bad-request", {

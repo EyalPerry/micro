@@ -1,3 +1,5 @@
+import { Item } from "Server/types";
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IItemModel {
    /**
@@ -5,14 +7,14 @@ export interface IItemModel {
     * @param value item to persist
     * @returns id of persisted item
     */
-   create(value: Record<string, unknown>): Promise<string>;
+   create(value: Item): Promise<string>;
 
    /**
     * Loads the item whose id is specified from persistence
     * @param id id of item
     * @returns either the item or undefined if the item does not exist.
     */
-   getById(id: string): Promise<Record<string, unknown> | null>;
+   getById(id: string): Promise<Item | null>;
 
    /**
     * Updates an item whose id is specified with the fields in the specified value
@@ -22,10 +24,7 @@ export interface IItemModel {
     * @param value value to use
     * @returns the updated object if it exists and the operation succeeded, false otherwise
     */
-   shallowUpdateById(
-      id: string,
-      value: Record<string, unknown>
-   ): Promise<Record<string, unknown> | null>;
+   shallowUpdateById(id: string, value: Partial<Item>): Promise<Item | null>;
 
    /**
     * Deletes the item whose id is specified
