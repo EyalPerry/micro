@@ -1,5 +1,11 @@
-import { DomainObjectSchemas } from "Server/types";
+import { CreateRequest, DomainObjectSchemas } from "Server/types";
 import * as v from "Server/validation";
-export const schemas: DomainObjectSchemas<"item"> = {
-   create: v.object({}),
+
+import * as yup from "yup/index";
+export const schema: DomainObjectSchemas<"item"> = {
+   create: yup
+      .object<CreateRequest>({
+         data: yup.object(),
+      })
+      .defined(),
 };

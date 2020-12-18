@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ObjectId } from "mongodb";
 import { Schema, ValidationOptions } from "Server/types";
-import * as yup from "yup";
+import * as yup from "yup/index";
 
-export const oneOf = (...values: string[]): Schema => yup.mixed().oneOf(values);
+export const oneOf = (...values: string[]): yup.MixedSchema<unknown> => yup.mixed().oneOf(values);
 
 export { string, number, boolean, isSchema } from "yup";
 
