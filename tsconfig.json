@@ -15,6 +15,8 @@
     "noEmitOnError": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "strictNullChecks": true,
+    "strictFunctionTypes ": false,
     "paths": {
       "Server/*": ["src/server/*"],
       "Test/*": ["src/test/*"]

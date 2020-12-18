@@ -1,6 +1,5 @@
 import { IItemDomain, IRequestContext, IResponse } from "Server/types";
 import { SchemaOf } from "yup";
-
 export type DomainFunction<Request, Payload> = (
    request: Request,
    ctx: IRequestContext
@@ -16,7 +15,7 @@ export type DomainFuncRequest<
    //TODO follow up on https://github.com/microsoft/TypeScript/issues/42018
    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
    //@ts-expect-error
-> = Parameters<DomainObjects[Domain][Func]>;
+> = Parameters<DomainObjects[Domain][Func]>[0];
 
 export type DomainFuncRequestSchemas = {
    [Domain in keyof DomainObjects]: {

@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const item = yup.object();
+export const item = yup.object({ name: yup.string().required() });
 const id = yup.string();
 
 export const createRequest = yup.object({
@@ -19,4 +19,3 @@ export const updateRequest = yup.object({
 export const deleteRequest = yup.object({
    id: id.required(),
 });
-
