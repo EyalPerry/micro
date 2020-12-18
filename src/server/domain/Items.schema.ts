@@ -1,21 +1,21 @@
 import * as yup from "yup";
 
-export const item = yup.object({ name: yup.string().required() });
+const item = yup.object({ name: yup.string().required() });
 const id = yup.string();
 
-export const createRequest = yup.object({
+export const create = yup.object({
    data: item.required(),
 });
 
-export const readRequest = yup.object({
+export const readById = yup.object({
    id: id.required(),
 });
 
-export const updateRequest = yup.object({
+export const updateById = yup.object({
    id: id.required(),
    data: item.required(),
 });
 
-export const deleteRequest = yup.object({
+export const deleteById = yup.object({
    id: id.required(),
 });

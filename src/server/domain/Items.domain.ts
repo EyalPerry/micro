@@ -11,7 +11,7 @@ import {
    UpdateResponse,
 } from "Server/types";
 
-export class ItemDomain implements IItemDomain {
+export class ItemsDomain implements IItemDomain {
    async create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<CreateResponse>> {
       const id = await ctx.app.models.items.create(request.data);
       return {
@@ -20,7 +20,7 @@ export class ItemDomain implements IItemDomain {
       };
    }
 
-   async readbyId(
+   async readById(
       request: ReadRequest,
       ctx: IRequestContext
    ): Promise<IResponse<ReadResponse | null>> {

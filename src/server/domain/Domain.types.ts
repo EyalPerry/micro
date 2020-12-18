@@ -6,7 +6,7 @@ export type DomainFunction<Request, Payload> = (
 ) => Promise<IResponse<Payload>>;
 
 export interface DomainObjects {
-   item: IItemDomain;
+   items: IItemDomain;
 }
 
 export type DomainFuncRequest<
