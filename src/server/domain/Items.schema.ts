@@ -6,11 +6,11 @@ const objectId = () =>
    yup
       .string()
       .required()
-      .transform(function (value: string): ObjectId {
+      .transform(function (value: string): string {
          if (!ObjectId.isValid(value)) {
             throw new Error(`${value} is not a valid mongo object id`);
          }
-         return new ObjectId(value);
+         return value;
       });
 
 export const item = yup.object({
