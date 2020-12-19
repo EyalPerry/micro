@@ -35,6 +35,11 @@ describe("item contract tests", () => {
       expect(response.body.id).toMatch(/^[a-z0-9]+$/);
    });
 
+   it("should reject creating an item with unknown fields", async () => {
+      const response = await createItem({ name: uuid(), oopsie: true });
+      expect(response.code).toEqual(400);
+   });
+
    it("should retrieve a previously created item", async () => {
       const name = uuid();
       const createResponse = await createItem({ name });

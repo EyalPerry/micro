@@ -10,13 +10,15 @@ export enum Environments {
 
 export const appConfig = yup
    .object({
-      database: database.required(),
-      http: http.required(),
+      database: database.required().noUnknown().strict(),
+      http: http.required().noUnknown().strict(),
       environment: yup
          .mixed()
          .oneOf<string>(Object.values(Environments))
          .default(Environments.production),
    })
-   .required();
+   .required()
+   .noUnknown()
+   .strict();
 
 export type AppConfig = yup.Asserts<typeof appConfig>;

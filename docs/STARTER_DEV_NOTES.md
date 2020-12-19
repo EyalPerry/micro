@@ -15,6 +15,7 @@ For developers
 - HTTP Request - get created entity
 
 # Upcoming Feature Roadmap
+- Test how over json limit is handled. make sure it is logged as well for observability
 - Contract test - per test isolation.
 - Contract test - dev env isolation when running in dev mode.
 - Test config

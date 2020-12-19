@@ -146,7 +146,7 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
             validationContext
          );
       } catch (err) {
-         respondWithOutcome(ctx, "bad-request", err);
+         respondWithOutcome(ctx, "bad-request", { errors: err.errors, path: err.path });
          requestContext.logger.trace("bad-request", {
             domain: handler.domain,
             func: handler.func,

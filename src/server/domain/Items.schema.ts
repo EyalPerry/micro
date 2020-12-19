@@ -14,9 +14,12 @@ const id = () =>
          return value;
       });
 
-export const item = yup.object({
-   name: partial(yup.string().required()),
-});
+export const item = yup
+   .object({
+      name: partial(yup.string().required()),
+   })
+   .noUnknown()
+   .strict();
 
 export const create = yup.object({
    data: item.required(),
