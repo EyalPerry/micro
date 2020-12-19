@@ -1,6 +1,7 @@
 import { IItemModel } from "Server/types";
 import { getTestModels } from "./getTestModels";
 import { uuid } from "Server/util";
+import { generateDatabaseId } from "Test/util";
 
 describe("ItemModel tests", () => {
    let model: IItemModel;
@@ -10,42 +11,34 @@ describe("ItemModel tests", () => {
    });
 
    it("should create an item and be able to later retrieve it", async () => {
-      const random = uuid();
-      const id = await model.create({ random });
+      const name = uuid();
+      const id = await model.create({ name });
       expect(typeof id).toEqual("string");
       expect(id.length).toBeGreaterThan(0);
       const value = await model.getById(id);
-      expect(value).toHaveProperty("random", random);
+      expect(value).toHaveProperty("name", name);
    });
 
    it("should return null when reading a non existing item", async () => {
-      const id = uuid();
-      const value = await model.getById(id);
+      const value = await model.getById(generateDatabaseId());
       expect(value).toBeNull();
    });
 
    it("should update a previously created item and return the updated value", async () => {
-      const random = uuid();
-      const id = await model.create({ random });
-      const random2 = uuid();
-      const updated = await model.shallowUpdateById(id, { random2 });
-      expect(updated).toHaveProperty("random", random);
-      expect(updated).toHaveProperty("random2", random2);
+      const name = uuid();
+      const id = await model.create({ name });
+      const newName = uuid();
+      const updated = await model.shallowUpdateById(id, { name: newName });
+      expect(updated).toHaveProperty("name", newName);
    });
 
    it("should return null when updating a non existing item", async () => {
-      const random = uuid();
-      const id = uuid();
-      const updated = await model.shallowUpdateById(id, { random });
+      const updated = await model.shallowUpdateById(generateDatabaseId(), { name: uuid() });
       expect(updated).toBeNull();
    });
 
    it("should delete a previously created item", async () => {
-      const random = uuid();
-      const id = await model.create({ random });
-      expect(typeof id).toEqual("string");
-      const value = await model.getById(id);
-      expect(value).toHaveProperty("random", random);
+      const id = await model.create({ name: uuid() });
       const result = await model.deleteById(id);
       expect(result).toEqual(true);
       const deletedValue = await model.getById(id);
@@ -53,8 +46,7 @@ describe("ItemModel tests", () => {
    });
 
    it("should return nil when deleting a non existing item", async () => {
-      const id = uuid();
-      const deleted = await model.deleteById(id);
+      const deleted = await model.deleteById(generateDatabaseId());
       expect(deleted).toEqual(false);
    });
 });

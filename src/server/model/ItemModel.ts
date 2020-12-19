@@ -11,7 +11,7 @@ export class ItemModel implements IItemModel {
 
    async create(value: Item): Promise<string> {
       const result = await this.collection.insertOne({ ...value });
-      return result.insertedId;
+      return result.insertedId.toHexString();
    }
 
    getById(id: string): Promise<Item | null> {
