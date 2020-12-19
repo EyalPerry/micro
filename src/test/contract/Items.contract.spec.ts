@@ -30,7 +30,7 @@ describe("item contract tests", () => {
    }
 
    it("should create an item", async () => {
-      const response = await createItem({ world: "hello!" });
+      const response = await createItem({ name: uuid() });
       expect(response.code).toEqual(201);
       expect(response.body.id).toMatch(/^[a-z0-9]+$/);
    });

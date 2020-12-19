@@ -19,10 +19,10 @@ import {
    IHttpHandler,
    IResponse,
    IRequestContext,
-   HttpMethod,
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
+import { domainSchemas } from "Server/domain/Domain.schemas";
 
 type OutcomeToHttpResponseMap = {
    [Outcome in ResponseOutcome]: HttpStatus;
