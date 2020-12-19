@@ -16,6 +16,8 @@ export interface ReadResponse {
    value: Item;
 }
 
+//TODO figure out how to apply Maybe on to the Item type only for UpdateByIdRequest
+//currently, typing creates false impression that all fields are present during update.
 export type UpdateByIdRequest = yup.Asserts<typeof schemas.updateById>;
 
 export interface UpdateResponse {
