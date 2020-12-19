@@ -19,6 +19,7 @@ import {
    IHttpHandler,
    IResponse,
    IRequestContext,
+   HttpMethod,
 } from "Server/types";
 import { requestIdHeader } from "Server/constants";
 import { uuid } from "Server/util";
@@ -54,7 +55,7 @@ export async function validateDomainFuncRequest(
    domain: string,
    func: string,
    value: Record<string, unknown>,
-   options: { patchable: boolean }
+   context: unknown
 ): Promise<unknown> {
    //TODO figure out TS debt later
    //@ts-ignore
@@ -71,11 +72,14 @@ export async function validateDomainFuncRequest(
       throw new Error(`no such domain schema: ${domain}`);
    }
 
-   return funcSchema.validate(value, { stripUnknown: true, context: options });
+   return funcSchema.validate(value, {
+      stripUnknown: true,
+      context,
+   });
 }
 
 function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<any, any>) {
-   const patchable = handler.method === "patch";
+   const validationContext = { partial: handler.method === "patch" };
    return async function handlerWrapperMiddleware(ctx: Context, next: Function) {
       let request: any = {
          ...(ctx.request.body || {}),
@@ -135,9 +139,12 @@ function createHandlerMiddleware(appContext: IAppContext, handler: IHttpHandler<
       });
 
       try {
-         request = await validateDomainFuncRequest(handler.domain, handler.func, request, {
-            patchable,
-         });
+         request = await validateDomainFuncRequest(
+            handler.domain,
+            handler.func,
+            request,
+            validationContext
+         );
       } catch (err) {
          respondWithOutcome(ctx, "bad-request", err);
          requestContext.logger.trace("bad-request", {

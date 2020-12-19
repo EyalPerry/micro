@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb";
-import { patchable } from "Server/validation";
+import { partialSupport as partial } from "Server/validation";
 import * as yup from "yup";
 
-const objectId = () =>
+//TODO figure out why this doesn't work for TS when moving it to Server/validation
+const id = () =>
    yup
       .string()
       .required()
@@ -14,7 +15,7 @@ const objectId = () =>
       });
 
 export const item = yup.object({
-   name: patchable(yup.string().required()),
+   name: partial(yup.string().required()),
 });
 
 export const create = yup.object({
@@ -22,14 +23,14 @@ export const create = yup.object({
 });
 
 export const readById = yup.object({
-   id: objectId(),
+   id: id(),
 });
 
 export const updateById = yup.object({
-   id: objectId(),
+   id: id(),
    data: item.required(),
 });
 
 export const deleteById = yup.object({
-   id: objectId(),
+   id: id(),
 });

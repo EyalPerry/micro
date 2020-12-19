@@ -19,7 +19,7 @@ export interface ReadResponse {
 export type UpdateRequest = yup.Asserts<typeof schemas.updateById>;
 
 export interface UpdateResponse {
-   value: Record<string, unknown>;
+   value: Item;
 }
 
 export type DeleteRequest = yup.Asserts<typeof schemas.deleteById>;
