@@ -1,12 +1,12 @@
 import {
    CreateRequest,
-   DeleteRequest,
+   DeleteByIdRequest,
    IItemDomain,
    IRequestContext,
    IResponse,
-   ReadRequest,
+   ReadByIdRequest,
    ReadResponse,
-   UpdateRequest,
+   UpdateByIdRequest,
    CreateResponse,
    UpdateResponse,
 } from "Server/types";
@@ -21,7 +21,7 @@ export class ItemsDomain implements IItemDomain {
    }
 
    async readById(
-      request: ReadRequest,
+      request: ReadByIdRequest,
       ctx: IRequestContext
    ): Promise<IResponse<ReadResponse | null>> {
       const value = await ctx.app.models.items.getById(request.id);
@@ -32,7 +32,7 @@ export class ItemsDomain implements IItemDomain {
    }
 
    async updateById(
-      request: UpdateRequest,
+      request: UpdateByIdRequest,
       ctx: IRequestContext
    ): Promise<IResponse<UpdateResponse | null>> {
       const value = await ctx.app.models.items.shallowUpdateById(request.id, request.data);
@@ -42,7 +42,7 @@ export class ItemsDomain implements IItemDomain {
       };
    }
 
-   async deleteById(request: DeleteRequest, ctx: IRequestContext): Promise<IResponse<unknown>> {
+   async deleteById(request: DeleteByIdRequest, ctx: IRequestContext): Promise<IResponse<unknown>> {
       const success = await ctx.app.models.items.deleteById(request.id);
       return {
          outcome: success ? "ok" : "not-found",
