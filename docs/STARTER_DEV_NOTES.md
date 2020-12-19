@@ -15,6 +15,10 @@ For developers
 - HTTP Request - get created entity
 
 # Upcoming Feature Roadmap
+- Contract test - per test isolation.
+- Contract test - dev env isolation when running in dev mode.
+- Test config
+- Test Schemas
 - Script for creating schema validation
 - Script for creating the initial indexes
 - GraphQL

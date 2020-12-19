@@ -13,7 +13,11 @@ export function getConfigFromEnv(): object {
          };
       });
 
-   const result = {};
+   const result: Record<string, unknown> = {};
+
+   if (process.env.NODE_ENV) {
+      result.environment = process.env.NODE_ENV;
+   }
 
    entries.forEach(({ path, value }) => {
       _.set(result, path, value);

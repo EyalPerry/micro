@@ -1,18 +1,21 @@
 import {
-   CreateRequest,
-   DeleteByIdRequest,
+   CreateItemRequest,
+   DeleteItemByIdRequest,
    IItemDomain,
    IRequestContext,
    IResponse,
-   ReadByIdRequest,
-   ReadResponse,
-   UpdateByIdRequest,
-   CreateResponse,
-   UpdateResponse,
+   ReadItemByIdRequest,
+   ReadItemResponse,
+   UpdateItemByIdRequest,
+   CreateItemResponse,
+   UpdateItemResponse,
 } from "Server/types";
 
 export class ItemsDomain implements IItemDomain {
-   async create(request: CreateRequest, ctx: IRequestContext): Promise<IResponse<CreateResponse>> {
+   async create(
+      request: CreateItemRequest,
+      ctx: IRequestContext
+   ): Promise<IResponse<CreateItemResponse>> {
       const id = await ctx.app.models.items.create(request.data);
       return {
          outcome: "created",
@@ -21,9 +24,9 @@ export class ItemsDomain implements IItemDomain {
    }
 
    async readById(
-      request: ReadByIdRequest,
+      request: ReadItemByIdRequest,
       ctx: IRequestContext
-   ): Promise<IResponse<ReadResponse | null>> {
+   ): Promise<IResponse<ReadItemResponse | null>> {
       const value = await ctx.app.models.items.getById(request.id);
       return {
          outcome: value ? "ok" : "not-found",
@@ -32,9 +35,9 @@ export class ItemsDomain implements IItemDomain {
    }
 
    async updateById(
-      request: UpdateByIdRequest,
+      request: UpdateItemByIdRequest,
       ctx: IRequestContext
-   ): Promise<IResponse<UpdateResponse | null>> {
+   ): Promise<IResponse<UpdateItemResponse | null>> {
       const value = await ctx.app.models.items.shallowUpdateById(request.id, request.data);
       return {
          outcome: value ? "ok" : "not-found",
@@ -42,7 +45,10 @@ export class ItemsDomain implements IItemDomain {
       };
    }
 
-   async deleteById(request: DeleteByIdRequest, ctx: IRequestContext): Promise<IResponse<unknown>> {
+   async deleteById(
+      request: DeleteItemByIdRequest,
+      ctx: IRequestContext
+   ): Promise<IResponse<unknown>> {
       const success = await ctx.app.models.items.deleteById(request.id);
       return {
          outcome: success ? "ok" : "not-found",

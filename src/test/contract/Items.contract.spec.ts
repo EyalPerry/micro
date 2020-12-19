@@ -1,5 +1,5 @@
 import { generateDatabaseId } from "Test/util";
-import { CreateResponse, ReadResponse, UpdateResponse } from "Server/types";
+import { CreateItemResponse, ReadItemResponse, UpdateItemResponse } from "Server/types";
 import { uuid } from "Server/util";
 import { HttpTestClient, HttpResponse } from "./http-test-client";
 
@@ -9,42 +9,38 @@ describe("item contract tests", () => {
       client = new HttpTestClient({ baseUrl: "/items" });
    });
 
-   function createItem(data: Record<string, unknown>): Promise<HttpResponse> {
+   function createItem(data: unknown): Promise<HttpResponse<CreateItemResponse>> {
       return client.post("/", {
          body: { data },
       });
    }
 
-   function getItem(id: string): Promise<HttpResponse> {
+   function getItem(id: string): Promise<HttpResponse<ReadItemResponse>> {
       return client.get(`/${id}`);
    }
 
-   function updateItem(id: string, data: Record<string, unknown>): Promise<HttpResponse> {
+   function updateItem(id: string, data: unknown): Promise<HttpResponse<UpdateItemResponse>> {
       return client.patch(`/${id}`, {
          body: { data },
       });
    }
 
-   function deleteItem(id: string): Promise<HttpResponse> {
+   function deleteItem(id: string): Promise<HttpResponse<unknown>> {
       return client.delete(`/${id}`);
    }
 
    it("should create an item", async () => {
       const response = await createItem({ world: "hello!" });
       expect(response.code).toEqual(201);
-      const body = response.body as CreateResponse;
-      expect(body).toHaveProperty("id");
-      expect(body.id).toMatch(/[a-z0-9]+/);
+      expect(response.body.id).toMatch(/^[a-z0-9]+$/);
    });
 
    it("should retrieve a previously created item", async () => {
-      const random = uuid();
-      const createResponse = await createItem({ random });
-      const createResponseBody = createResponse.body as CreateResponse;
-      const getResponse = await getItem(createResponseBody.id);
+      const name = uuid();
+      const createResponse = await createItem({ name });
+      const getResponse = await getItem(createResponse.body.id);
       expect(getResponse.code).toEqual(200);
-      const getResponseBody = getResponse.body as ReadResponse;
-      expect(getResponseBody).toHaveProperty("value.random", random);
+      expect(getResponse.body.value.name).toEqual(name);
    });
 
    it("should gracefully handle retrieving a non existing item", async () => {
@@ -53,29 +49,23 @@ describe("item contract tests", () => {
    });
 
    it("should update a previously created item", async () => {
-      const random = uuid();
-      const createResponse = await createItem({ random });
-      const createResponseBody = createResponse.body as CreateResponse;
-      const random2 = uuid();
-      const updateResponse = await updateItem(createResponseBody.id, { random2 });
+      const createResponse = await createItem({ name: uuid() });
+      const newName = uuid();
+      const updateResponse = await updateItem(createResponse.body.id, { name: newName });
       expect(updateResponse.code).toEqual(200);
-      const updateResponseBody = updateResponse.body as UpdateResponse;
-      expect(updateResponseBody).toHaveProperty("value.random", random);
-      expect(updateResponseBody).toHaveProperty("value.random2", random2);
+      expect(updateResponse.body.value.name).toEqual(newName);
    });
 
    it("should gracefully handle updating a non existing item", async () => {
-      const updateResponse = await updateItem(generateDatabaseId(), { name: "something" });
+      const updateResponse = await updateItem(generateDatabaseId(), { name: uuid() });
       expect(updateResponse.code).toEqual(404);
    });
 
    it("should delete a previously created item", async () => {
-      const random = uuid();
-      const createResponse = await createItem({ random });
-      const createResponseBody = createResponse.body as CreateResponse;
-      const deleteResponse = await deleteItem(createResponseBody.id);
+      const createResponse = await createItem({ name: uuid() });
+      const deleteResponse = await deleteItem(createResponse.body.id);
       expect(deleteResponse.code).toEqual(200);
-      const getResponse = await getItem(createResponseBody.id);
+      const getResponse = await getItem(createResponse.body.id);
       expect(getResponse.code).toEqual(404);
    });
 
