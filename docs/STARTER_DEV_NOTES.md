@@ -15,6 +15,8 @@ For developers
 - HTTP Request - get created entity
 
 # Upcoming Feature Roadmap
+- Script for creating schema validation
+- Script for creating the initial indexes
 - GraphQL
 - Request Validation for params, query and body
 - Logging

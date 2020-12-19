@@ -23,13 +23,17 @@ class MongoConnection implements IDatabaseConnection {
       return this.client.close();
    };
 
+   get client(): MongoClient {
+      return this._client;
+   }
+
    get database(): Db {
       return this._database;
    }
 
    getDatabase = (name: string) => this.client.db(name);
 
-   constructor(private client: MongoClient, private config: DatabaseConfig) {
+   constructor(private _client: MongoClient, config: DatabaseConfig) {
       this._database = this.getDatabase(config.name);
    }
 }

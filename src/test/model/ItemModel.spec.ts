@@ -1,14 +1,18 @@
 import { IItemModel } from "Server/types";
-import { getTestModels } from "./getTestModels";
+import { TestModels, getTestModels } from "./getTestModels";
 import { uuid } from "Server/util";
 import { generateDatabaseId } from "Test/util";
 
 describe("ItemModel tests", () => {
+   let testModels: TestModels;
    let model: IItemModel;
 
    beforeEach(async () => {
-      model = await (await getTestModels()).items;
+      testModels = await getTestModels();
+      model = testModels.models.items;
    });
+
+   afterEach(() => testModels.afterEach());
 
    it("should create an item and be able to later retrieve it", async () => {
       const name = uuid();
